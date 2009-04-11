@@ -37,6 +37,14 @@ class App_View_Helper_Menu extends Zend_View_Helper_Placeholder_Container_Standa
      */
     protected $_currentMenu;
 
+    public function  __construct()
+    {
+        parent::__construct();
+        
+        $this->setPrefix('<ul>');
+        $this->setPostfix('</ul>');
+    }
+
     /**
      * menu() - View Helper Method
      *
@@ -100,29 +108,23 @@ class App_View_Helper_Menu extends Zend_View_Helper_Placeholder_Container_Standa
      */
     public function toString()
     {
-        $result = '';
-
         if (!$this->_currentMenu) {
-            return $result;
+            return '';
         }
+
+        $result = $this->getPrefix();
 
         if (array_key_exists($this->_currentMenu, $this->_items)) {
 
-            $result .= '<ul';
-
-            if ($this->_id) {
-                $result .= ' id="'.$this->_id.'"';
-            }
-
-            $result .= '>';
-
+            $items = array();
             foreach ($this->_items[$this->_currentMenu] as $item) {
-                $result .= $this->_renderItem($item);
+                array_push($items, $this->_renderItem($item));
             }
 
-            $result .= '</ul>';
-
+            $result .= implode($this->getSeparator(), $items);
         }
+
+        $result .= $this->getPostfix();
 
         return $result;
     }
