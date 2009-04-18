@@ -10,12 +10,27 @@ class App_Layout extends Zend_Layout {
      */
     protected $_pluginClass = 'App_Layout_Controller_Plugin_Layout';
 
-    /*public function __construct($options = null, $initMvc = false)
-    {
-//        $this->_pluginClass = 'App_Layout_Controller_Plugin_Layout';
-        echo 'test';exit;
-        parent::__construct($options, $initMvc);
-    }*/
+    /**
+     * Compress output HTML
+     *
+     * @var boolean
+     */
+    protected $_compressHtml = false;
+
+    /**
+     * Compress output CSS
+     *
+     * @var string
+     */
+    protected $_compressCss = false;
+
+    /**
+     * Compress output JS
+     *
+     * @var boolean
+     */
+    protected $_compressJs = false;
+    
 
     /**
      * Static method for initialization with MVC support
@@ -34,5 +49,65 @@ class App_Layout extends Zend_Layout {
         }
 
         return self::$_mvcInstance;
+    }
+
+    /**
+     * Enable HTML compression
+     *
+     * @param boolean $value
+     */
+    public function setCompressHtml($value)
+    {
+        $this->_compressHtml = $value;
+    }
+
+    /**
+     * Get HTML compression status
+     *
+     * @return boolean
+     */
+    public function getCompressHtml()
+    {
+        return $this->_compressHtml;
+    }
+
+    /**
+     * Enable CSS compression
+     *
+     * @param boolean $value
+     */
+    public function setCompressCss($value)
+    {
+        $this->_compressCss = $value;
+    }
+
+    /**
+     * Get CSS compression status
+     *
+     * @return boolean
+     */
+    public function getCompressCss()
+    {
+        return $this->_compressCss;
+    }
+
+    /**
+     * Enable in-page JavaScript compression
+     *
+     * @param boolean $value
+     */
+    public function setCompressJs($value)
+    {
+        $this->_compressJs = $value;
+    }
+
+    /**
+     * Get JavaScript compression status
+     *
+     * @return boolean
+     */
+    public function getCompressJs()
+    {
+        return $this->_compressJs;
     }
 }

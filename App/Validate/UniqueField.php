@@ -10,27 +10,27 @@ require_once 'Zend/Validate/Abstract.php';
 */
 class App_Validate_UniqueField extends Zend_Validate_Abstract {
 
-	const EMAIL_EXISTS = 'exists';
+	const IS_EXISTS = 'exists';
 
     /**
-     * Email checked
+     * Value checked
      *
      * @var string
      */
-	protected $_email;
+	protected $_value;
 
 	/**
 	 * @var array
 	 */
 	 protected $_messageTemplates = array(
-		self::EMAIL_EXISTS  => 'This email is already registered in the system.'
+		self::IS_EXISTS  => 'The same value is already exists in the database.'
 	);
 
 	/**
 	 * @var array
 	 */
 	 protected $_messageVariables = array(
-	 	'email' => '_email'
+	 	'value' => '_value'
 	 );
 
    /**
@@ -40,8 +40,18 @@ class App_Validate_UniqueField extends Zend_Validate_Abstract {
     */
    protected $_skip;
 
+   /**
+    * Model name
+    *
+    * @var string
+    */
    protected $_model;
 
+   /**
+    * Field name
+    *
+    * @var string
+    */
    protected $_field;
 
    /**
@@ -67,7 +77,6 @@ class App_Validate_UniqueField extends Zend_Validate_Abstract {
     * Defined by Zend_Validate_Interface
 	*
 	* @param  string $value
-	*
 	* @return boolean
 	*/
 	public function isValid($value) {
@@ -76,20 +85,20 @@ class App_Validate_UniqueField extends Zend_Validate_Abstract {
             return true;
         }
 
-		$this->_email = $value;
+		$this->_value = $value;
 
 		$model = new $this->_model();
         $select = $model->select()
-                        ->where('`email` = ?', trim($value));
+                        ->where('`'.$this->_field.'` = ?', trim($value));
 
 		$record = $model->fetchAll($select);
 
 		if (count($record) > 0) {
-			// такой email уже существует
-			$this->_error(self::EMAIL_EXISTS);
+			// the field with such value is already exists
+			$this->_error(self::IS_EXISTS);
 			return false;
 		} else {
-			// такой email еще не регистрировался
+			// such value is not exists yet
 			return true;
 		}
 	}

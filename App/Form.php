@@ -1,6 +1,6 @@
 <?php
 /* 
- * Базовая форма для всех форм
+ * The base form
  */
 class App_Form extends Zend_Form {
 
@@ -28,7 +28,6 @@ class App_Form extends Zend_Form {
                 ->setOptions(array('class'=>'formElement'));
 
         $errorsDecorator = new Zend_Form_Decorator_Errors(array('placement' => 'prepend'));
-        //$errorsDecorator->setOption();
 
         $this->setElementDecorators(array('ViewHelper', 'Label', $errorsDecorator, $htmlTag));
         $this->addDecorator('FormElements')
@@ -64,6 +63,11 @@ class App_Form extends Zend_Form {
                     $element->removeDecorator('Label');
                     $element->removeDecorator('Errors');
                     break;
+                case 'App_Form_Element_CustomHtml':
+                    $element->removeDecorator('Label');
+                    $element->removeDecorator('Errors');
+                    $element->removeDecorator('HtmlTag');
+                    break;
             }
         }
 
@@ -89,7 +93,9 @@ class App_Form extends Zend_Form {
 
                     // 'identical' validator
                     Zend_Validate_Identical::MISSING_TOKEN => 'Не передано значение для проверки идентичности',
-                    Zend_Validate_Identical::NOT_SAME => 'Введенные значения не соответствуют друг другу'
+                    Zend_Validate_Identical::NOT_SAME => 'Введенные значения не соответствуют друг другу',
+
+                    App_Validate_UniqueField::IS_EXISTS => 'Такое значение уже существует, выберите другое.'
                 ),
                 $lang
             );
