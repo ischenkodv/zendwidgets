@@ -4,7 +4,6 @@
  */
 class App_View_Helper_Table extends Zend_View_Helper_Placeholder_Container_Standalone
 {
-
     /**
      * @var string registry key
      */
