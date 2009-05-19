@@ -41,6 +41,15 @@ class App_Form extends Zend_Form {
         while ($element = array_shift($elements)) {
 
             switch ($element->getType()) {
+                case 'Zend_Form_Element_Captcha':
+                   $element->clearDecorators()
+                            ->addDecorators(array(
+                                'CaptchaWrapper',
+                                'Label',
+                                $errorsDecorator,
+                                $htmlTag
+                            ));
+                    break;
                 case 'Zend_Form_Element_Radio':
                     $element->clearDecorators()
                             ->addDecorators(array(
@@ -50,7 +59,6 @@ class App_Form extends Zend_Form {
                                 $errorsDecorator,
                                 $htmlTag
                             ));
-
                     break;
 
                 case 'Zend_Form_Element_Submit':
@@ -71,6 +79,9 @@ class App_Form extends Zend_Form {
             }
         }
 
+
+//$c = $this->getElement('captcha');
+//Zend_Debug::dump($c->getDecorators());exit;
     }
 
     static public function initTranslator($lang = 'ru')
@@ -81,7 +92,7 @@ class App_Form extends Zend_Form {
             $translate = new Zend_Translate(
                 'array',
                 array(
-                    Zend_Validate_EmailAddress::INVALID            => "значение '%value%' не является действительным email адресом",
+                    Zend_Validate_EmailAddress::INVALID            => "Значение '%value%' не является действительным email адресом",
                     Zend_Validate_EmailAddress::INVALID_HOSTNAME   => "'%hostname%' не является действительным значением для email адреса '%value%'",
                     Zend_Validate_EmailAddress::INVALID_MX_RECORD  => "'%hostname%' не является действительной записью MX для email адреса '%value%'",
                     Zend_Validate_EmailAddress::DOT_ATOM           => "'%localPart%' не соответствует формату dot-atom",
