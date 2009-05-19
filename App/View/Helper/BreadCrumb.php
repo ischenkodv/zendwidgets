@@ -83,10 +83,15 @@ class App_View_Helper_BreadCrumb extends Zend_View_Helper_Placeholder_Container_
 
             $items = array();
 
+            $lastElement = array_pop($this->_items);
+            
             foreach($this->_items as $item)
             {
                 array_push($items, $this->_renderItem($item));
             }
+            // render last element without link
+            $lastElement->url = null;
+            array_push($items, $this->_renderItem($lastElement));
 
             $xhtml .= join($this->getSeparator(), $items);
         }
